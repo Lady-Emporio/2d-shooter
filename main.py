@@ -1,7 +1,7 @@
 import pygame
 import pyganim
 from map import ground_block
-from unit import Hero
+from unit import Hero,Hero_body
 WIN_WIDTH = 800
 WIN_HEIGHT = 640
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)
@@ -13,7 +13,9 @@ bg = pygame.Surface((WIN_WIDTH,WIN_HEIGHT))
 allForDraw=pygame.sprite.Group()
 
 hero=Hero(30,30,100,300)
+hero_body=Hero_body(30,30,100,300)
 allForDraw.add(hero)
+allForDraw.add(hero_body)
 
 
 
@@ -48,6 +50,8 @@ while not end_game:
 	
 
 	hero.update(left, right,top=top,bottom=bottom)
+	hero_body.update(left, right,top=top,bottom=bottom)
+	
 
 	screen.blit(bg, (0,0))
 	allForDraw.draw(screen)
