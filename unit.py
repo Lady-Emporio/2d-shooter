@@ -138,6 +138,14 @@ class Bullet(Base):
 		self.target_x,self.target_y=cursor.rect.x,cursor.rect.y
 		self.image=pygame.image.load("./textures/weapons/pistol/bullet.png")
 		self.move=1
+		angleA_X, angleA_Y = (self.rect.x, self.rect.y)
+		angleB_X, angleB_Y = (cursor.rect.x, cursor.rect.y)
+		a = pygame.math.Vector2(angleA_X, angleA_Y)
+		b = pygame.math.Vector2(angleB_X, angleB_Y)
+		zero = pygame.math.Vector2()
+		self.image=pygame.transform.rotate(pygame.image.load("./textures/weapons/pistol/bullet.png"),90-zero.angle_to(a-b))
+		self.storage_x=0
+		self.storage_y=0
 	def update(self):
 		pos_x=0
 		pos_y=0
@@ -150,6 +158,6 @@ class Bullet(Base):
 			pos_y=self.move
 		elif self.rect.y>self.target_y:
 			pos_y=-self.move
-		self.rect.x+=pos_x
-		self.rect.y+=pos_y
+		self.rect.x+=int(pos_x)
+		self.rect.y+=int(pos_y)
 

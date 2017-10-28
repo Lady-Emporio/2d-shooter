@@ -76,7 +76,7 @@ while not end_game:
 	weapons.update(left, right,top=top,bottom=bottom)
 	for bullet in Bullet_list:
 		bullet.update()
-		bullet.image=pygame.transform.rotate(pygame.image.load("./textures/weapons/pistol/bullet.png"),90-zero.angle_to(a-b))
+		
 
 
 	angleA_X, angleA_Y = (hero_body.rect.x+(hero_body.image.get_width()/2), hero_body.rect.y+(hero_body.image.get_height()/2))
