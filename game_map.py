@@ -1,8 +1,9 @@
 import pygame
 import os
-#from main import WIN_HEIGHT,WIN_WIDTH
-WIN_HEIGHT=800
-WIN_WIDTH=640
+from const import *
+
+# WIN_HEIGHT=800
+# WIN_WIDTH=640
 class Platform(pygame.sprite.Sprite):
 	def __init__(self, x, y):
 		pygame.sprite.Sprite.__init__(self)

@@ -1,6 +1,7 @@
 import pygame
 import random
 import pyganim
+from const import *
 class PygAni(pyganim.PygAnimation):
 	def __init__(self,*arg):
 		pyganim.PygAnimation.__init__(self,*arg)
@@ -92,38 +93,6 @@ class Hero_body(Base):
 		self.rect.y += pos_y
 		self.rect.x += pos_x
 
-
-# class Weapons():
-# 	self.weapons=pygame.image.load("./textures/weapons/pistol/gun.png")
-# 	self.BearWeapon = PygAni(  ( (self.weapons,600),) )
-# 	self.BearWeapon.play()
-
-
-# class Shoot_in_mouse(Base):
-# 	def __init__ (self,*arg):
-# 		Base.__init__(self,*arg)
-# 		self.image = pygame.Surface((10, 10))
-# 		self.image.fill((123,255,10))
-# 		self.mouse=(0,0)
-# 		# self.rect.y+=200
-# 		# self.rect.x+=100
-# 	def update(self,  mouse_pos):
-# 		m_x,m_y=mouse_pos
-# 		if mouse_pos!=self.mouse:
-# 			# pos_y=m_x-self.mouse[0]
-# 			# pos_x=m_y-self.mouse[1]
-# 			pos_y=m_y-self.mouse[1]
-# 			pos_x=m_x-self.mouse[0]
-# 		else:
-# 			pos_y,pos_x=0,0
-# 		self.mouse=mouse_pos	
-# 		self.rect.y += pos_y
-# 		self.rect.x += pos_x
-
-# 		# self.rect.y+=10
-# 		# self.rect.x+=10
-
-
 class Shoot_in_mouse(pygame.sprite.Sprite):
 	def __init__(self):
 		pygame.sprite.Sprite.__init__(self)
@@ -137,3 +106,50 @@ class Shoot_in_mouse(pygame.sprite.Sprite):
 	def update(self,value,w):
 		self.rect.x = value[0]-w[0]
 		self.rect.y = value[1]-w[1]
+
+
+
+
+class Weapons(Base):
+	def __init__ (self,*arg):
+		Base.__init__(self,*arg)
+		self.image=pygame.image.load("./textures/weapons/pistol/gun.png")
+	def update(self,  left, right,top,bottom):
+		if top:
+			pos_y=-self.move
+		if  bottom:
+			pos_y=self.move
+		if left:
+			pos_x = -self.move # Лево = x- n
+		if right:
+			pos_x = self.move # Право = x + n
+		if not(left or right): # стоим, когда нет указаний идти
+			pos_x = 0
+		if not (top or bottom):
+			pos_y=0
+		self.rect.y += pos_y
+		self.rect.x += pos_x
+
+
+
+class Bullet(Base):
+	def __init__ (self,*arg,cursor):
+		Base.__init__(self,*arg)
+		self.target_x,self.target_y=cursor.rect.x,cursor.rect.y
+		self.image=pygame.image.load("./textures/weapons/pistol/bullet.png")
+		self.move=1
+	def update(self):
+		pos_x=0
+		pos_y=0
+		if self.rect.x<self.target_x:
+			pos_x=self.move
+		elif self.rect.x>self.target_x:
+			pos_x=-self.move
+
+		if self.rect.y<self.target_y:
+			pos_y=self.move
+		elif self.rect.y>self.target_y:
+			pos_y=-self.move
+		self.rect.x+=pos_x
+		self.rect.y+=pos_y
+
