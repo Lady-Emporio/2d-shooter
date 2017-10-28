@@ -2,7 +2,7 @@ import pygame
 import pyganim
 import math
 from game_map import Platform,Camera,camera_configure
-from unit import Hero,Hero_body
+from unit import Hero,Hero_body,Shoot_in_mouse
 WIN_WIDTH = 800
 WIN_HEIGHT = 640
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)
@@ -20,7 +20,8 @@ allForDraw.add(hero_body)
 entities = pygame.sprite.Group() # Все объекты
 entities.add(hero)
 entities.add(hero_body)
-
+cursor=Shoot_in_mouse()
+entities.add(cursor)
 
 level=open("./Python_copy_paste1.txt","r").read().split('\n')
 
@@ -81,43 +82,48 @@ while not end_game:
 
 
 
-	m_x,m_y=pygame.mouse.get_pos()
-	# wtf=((hero_body.rect.x,m_x),(hero_body.rect.y,m_y))
-	side_a=m_x-hero_body.rect.x
-	side_b=m_y-hero_body.rect.y
-	# if side_a<0:
-	# 	side_a=0
-	# if side_b<0:
-	# 	side_b=0
-	# hypot_to_herobody_and_mouse=math.hypot(side_a,side_b ) 
-	# c=hypot_to_herobody_and_mouse
-	# try:
-	# 	w=math.acos((side_a ** 2 - side_b ** 2 - c ** 2)/(-2 * side_b * c)) #26
-	# except ZeroDivisionError as h:
-	# 	w=0
-	# hero_body.image=pygame.transform.rotate(pygame.image.load("./textures/skins/blue_man/body.png"),math.degrees(w)-180)
-	angleA_X, angleA_Y = (hero_body.rect.x+(hero_body.image.get_width()/2), hero_body.rect.y+(hero_body.image.get_height()/2))
-	angleB_X, angleB_Y = (m_x, m_y)
+	# m_x,m_y=pygame.mouse.get_pos()
+	# # wtf=((hero_body.rect.x,m_x),(hero_body.rect.y,m_y))
+	# side_a=m_x-hero_body.rect.x
+	# side_b=m_y-hero_body.rect.y
+	# # if side_a<0:
+	# # 	side_a=0
+	# # if side_b<0:
+	# # 	side_b=0
+	# # hypot_to_herobody_and_mouse=math.hypot(side_a,side_b ) 
+	# # c=hypot_to_herobody_and_mouse
+	# # try:
+	# # 	w=math.acos((side_a ** 2 - side_b ** 2 - c ** 2)/(-2 * side_b * c)) #26
+	# # except ZeroDivisionError as h:
+	# # 	w=0
+	# # hero_body.image=pygame.transform.rotate(pygame.image.load("./textures/skins/blue_man/body.png"),math.degrees(w)-180)
+	# angleA_X, angleA_Y = (hero_body.rect.x+(hero_body.image.get_width()/2), hero_body.rect.y+(hero_body.image.get_height()/2))
+	# angleB_X, angleB_Y = (m_x, m_y)
 
-	a = pygame.math.Vector2(angleA_X, angleA_Y)
-	b = pygame.math.Vector2(angleB_X, angleB_Y)
+	# a = pygame.math.Vector2(angleA_X, angleA_Y)
+	# b = pygame.math.Vector2(angleB_X, angleB_Y)
 
-	zero = pygame.math.Vector2()
+	# zero = pygame.math.Vector2()
 
-	#print( zero.angle_to(a-b) )
+	# #print( zero.angle_to(a-b) )
 
-	hero_body.image=pygame.transform.rotate(pygame.image.load("./textures/skins/blue_man/body.png"),90-zero.angle_to(a-b))
-
-
+	# hero_body.image=pygame.transform.rotate(pygame.image.load("./textures/skins/blue_man/body.png"),90-zero.angle_to(a-b))
 
 
 
+
+	#cursor.update(pygame.mouse.get_pos())
 	screen.blit(bg, (0,0))
-	camera.update(hero)
+	w=camera.update(hero)
+	cursor.update(pygame.mouse.get_pos(),w)
 	#platforms.draw(screen)
 
 	#allForDraw.draw(screen)
 	for e in entities:
 			screen.blit(e.image, camera.apply(e))
+			#screen.blit(e.image, e.rect.move(-100,-200))
+	#print(camera.apply(cursor))
 	
+	print(cursor.rect.x,cursor.rect.y)
 	pygame.display.update()
+	#cursor_group.remove(m)

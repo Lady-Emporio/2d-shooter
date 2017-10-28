@@ -21,11 +21,15 @@ class Camera(object):
         self.state = pygame.Rect(0, 0, width, height)
 
     def apply(self, target):
+        #print(self.state.topleft)
         return target.rect.move(self.state.topleft)
 
     def update(self, target):
         self.state = self.camera_func(self.state, target.rect)
-        
+        #print(self.state)
+        return self.state
+
+
 def camera_configure(camera, target_rect):
     l, t, _, _ = target_rect
     _, _, w, h = camera

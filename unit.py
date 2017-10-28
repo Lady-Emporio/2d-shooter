@@ -71,9 +71,9 @@ class Hero_body(Base):
 		Base.__init__(self,*arg)
 		self.image=pygame.image.load("./textures/skins/blue_man/body.png")
 		#print(dir(self.image))
-		print(self.image.get_width())
-		print(self.image.get_height())
-		
+		# print(self.image.get_width())
+		# print(self.image.get_height())
+
 		#['__class__', '__copy__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '_pixels_address', 'blit', 'convert', 'convert_alpha', 'copy', 'fill', 'get_abs_offset', 'get_abs_parent', 'get_alpha', 'get_at', 'get_at_mapped', 'get_bitsize', 'get_bounding_rect', 'get_buffer', 'get_bytesize', 'get_clip', 'get_colorkey', 'get_flags', 'get_height', 'get_locked', 'get_locks', 'get_losses', 'get_masks', 'get_offset', 'get_palette', 'get_palette_at', 'get_parent', 'get_pitch', 'get_rect', 'get_shifts', 'get_size', 'get_view', 'get_width', 'lock', 'map_rgb', 'mustlock', 'scroll', 'set_alpha', 'set_at', 'set_clip', 'set_colorkey', 'set_masks', 'set_palette', 'set_palette_at', 'set_shifts', 'subsurface', 'unlock', 'unmap_rgb']
 		#self.image=pygame.transform.rotate(pygame.image.load("./textures/skins/blue_man/body.png"),90)
 	def update(self,  left, right,top,bottom):
@@ -97,3 +97,43 @@ class Hero_body(Base):
 # 	self.weapons=pygame.image.load("./textures/weapons/pistol/gun.png")
 # 	self.BearWeapon = PygAni(  ( (self.weapons,600),) )
 # 	self.BearWeapon.play()
+
+
+# class Shoot_in_mouse(Base):
+# 	def __init__ (self,*arg):
+# 		Base.__init__(self,*arg)
+# 		self.image = pygame.Surface((10, 10))
+# 		self.image.fill((123,255,10))
+# 		self.mouse=(0,0)
+# 		# self.rect.y+=200
+# 		# self.rect.x+=100
+# 	def update(self,  mouse_pos):
+# 		m_x,m_y=mouse_pos
+# 		if mouse_pos!=self.mouse:
+# 			# pos_y=m_x-self.mouse[0]
+# 			# pos_x=m_y-self.mouse[1]
+# 			pos_y=m_y-self.mouse[1]
+# 			pos_x=m_x-self.mouse[0]
+# 		else:
+# 			pos_y,pos_x=0,0
+# 		self.mouse=mouse_pos	
+# 		self.rect.y += pos_y
+# 		self.rect.x += pos_x
+
+# 		# self.rect.y+=10
+# 		# self.rect.x+=10
+
+
+class Shoot_in_mouse(pygame.sprite.Sprite):
+	def __init__(self):
+		pygame.sprite.Sprite.__init__(self)
+		self.segment_width=10
+		self.segment_height=10
+		self.image = pygame.Surface([self.segment_width, self.segment_height])
+		self.image.fill((50,240,113))
+		self.rect = pygame.Rect(40, 40, self.segment_width, self.segment_height)
+	def draw(self, screen): # Выводим себя на экран
+		screen.blit(self.image, (self.rect.x,self.rect.y))
+	def update(self,value,w):
+		self.rect.x = value[0]-w[0]
+		self.rect.y = value[1]-w[1]
