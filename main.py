@@ -1,6 +1,6 @@
 import pygame
 import pyganim
-from map import ground_block
+from game_map import Platform,Camera,camera_configure
 from unit import Hero,Hero_body
 WIN_WIDTH = 800
 WIN_HEIGHT = 640
@@ -11,16 +11,35 @@ screen = pygame.display.set_mode(DISPLAY)
 bg = pygame.Surface((WIN_WIDTH,WIN_HEIGHT))
 
 allForDraw=pygame.sprite.Group()
-
+platforms=pygame.sprite.Group()
 hero=Hero(30,30,100,300)
 hero_body=Hero_body(30,30,100,300)
 allForDraw.add(hero)
 allForDraw.add(hero_body)
+entities = pygame.sprite.Group() # Все объекты
+entities.add(hero)
+entities.add(hero_body)
 
 
+level=open("./Python_copy_paste.txt","r").read().split('\n')
 
-
-
+PLATFORM_WIDTH=32
+PLATFORM_HEIGHT=32
+x=y=0 # координаты
+for row in level: # вся строка
+	for col in row: # каждый символ
+		if col != " ":
+			pf = Platform(x,y)
+			print(x,y)
+			entities.add(pf)
+			#platforms.append(pf)
+			platforms.add(pf)
+		x += PLATFORM_HEIGHT #блоки платформы ставятся на ширине блоков
+	y += PLATFORM_HEIGHT    #то же самое и с высотой
+	x = 0
+total_level_width  = len(level[0])*PLATFORM_WIDTH # Высчитываем фактическую ширину уровня
+total_level_height = len(level)*PLATFORM_HEIGHT   # высоту
+camera = Camera(camera_configure, total_level_width, total_level_height) 
 
 left=right=top=bottom=False
 timer = pygame.time.Clock()
@@ -54,5 +73,11 @@ while not end_game:
 	
 
 	screen.blit(bg, (0,0))
-	allForDraw.draw(screen)
+	camera.update(hero)
+	#platforms.draw(screen)
+
+	#allForDraw.draw(screen)
+	for e in entities:
+			screen.blit(e.image, camera.apply(e))
+	
 	pygame.display.update()
